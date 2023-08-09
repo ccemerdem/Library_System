@@ -147,10 +147,12 @@ void signup()
 
       while (!user.eof() && !admin.eof())
       {
-        user >> dummy >> u.ID;
+        admin >> adminID;
+        
+        user >> u.ID;
+        
         cin.ignore(0);
         getline(user, dummy);
-        admin >> adminID;
 
         if (IDdummy == u.ID || IDdummy == adminID)
         {
@@ -179,14 +181,11 @@ void signup()
   cout << "Enter your password: ";
   cin >> u.password;
 
-  user << setw(5) << 0;
-  user << setw(10) << u.ID;
-  user << setw(30) << u.password;
-  user << u.nameSurname << endl;
+  user << setw(10) << u.ID << setw(30) << u.password << u.nameSurname << endl;
 
   user.close();
 
-  cout << "\nSign p successful!   Returning main menu...";
+  cout << "\nSign Up successful!   Returning main menu...";
 
   Sleep(2000);
   system("cls");
@@ -198,7 +197,6 @@ void signup()
 void login()
 {
   fstream user;
-
   fstream admin;
   userInfo u;
 
@@ -226,7 +224,9 @@ void login()
   {
     user.seekg(0);
     admin.seekg(0);
+    
 
+    // Calculates how many digits the entered ID has
     while (verify2)
     {
       cout << "Enter your ID: ";
@@ -271,7 +271,7 @@ void login()
 
     while (!user.eof())
     {
-      user >> dummy >> u.ID >> u.password;
+      user >> u.ID >> u.password;
 
       // It was created to skip the password and name surname in '.txt'
       getline(user, dummy); //
@@ -371,6 +371,7 @@ void add_book()
 
     cout << "Category ID : ";
     cin >> b.categoryID;
+
     cout << "Book ID (Max. lenght is 6): ";
     cin >> b.ID;
 
@@ -381,7 +382,8 @@ void add_book()
     cout << "Author name: ";
     getline(cin, b.authorName);
 
-    book_list << endl << left << setw(8) << b.categoryID << right << setw(7) << b.ID << " '" << b.bookName << "' by " << b.authorName;
+    book_list << endl
+              << left << setw(8) << b.categoryID << right << setw(7) << b.ID << " '" << b.bookName << "' by " << b.authorName;
     cout << endl;
   }
 
@@ -780,7 +782,7 @@ void return_books()
   assing_list.close();
   assing_list.open("assing_list.txt", ios::in);
 
-  // Sorts and prints the books the user owns. (Inventory System)
+  // Sorts and prints the books that user owns. (Inventory System)
   while (!assing_list.eof())
   {
     assing_list >> u.ID >> dummy;
@@ -855,7 +857,7 @@ string get_ID(int userID)
 
   while (!user.eof())
   {
-    user >> dummy >> u.ID;
+    user >> u.ID;
 
     if (u.ID == userID)
     {
@@ -871,4 +873,3 @@ string get_ID(int userID)
   }
   return 0;
 }
-
