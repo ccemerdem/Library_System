@@ -86,7 +86,7 @@ int menu_main()
 
     case '3':
       verify = 0;
-      return 0;
+      exit(0);
     }
   } while (verify);
   return 0;
@@ -124,7 +124,7 @@ void signup()
     verify = 1;
     step = 0;
 
-    cout << "Enter a ID: ";
+    cout << "Enter a 6 digit ID: ";
     cin >> IDdummy;
 
     for (int temp = IDdummy; temp > 0; step++)
@@ -136,7 +136,7 @@ void signup()
     {
       system("cls");
       cout << "\t\tWarning!" << endl
-           << "\nThis ID is not valid! Must be have 6 digit" << endl;
+           << "\nThis ID is not valid! Must be 6 digit" << endl;
       verify = 0;
       continue;
     }
@@ -144,13 +144,14 @@ void signup()
     if (verify == 1)
     {
       user.seekg(0);
+      admin.seekg(0);
 
       while (!user.eof() && !admin.eof())
       {
         admin >> adminID;
-        
+
         user >> u.ID;
-        
+
         cin.ignore(0);
         getline(user, dummy);
 
@@ -160,6 +161,7 @@ void signup()
           cout << "\tWarning!" << endl
                << "\nThis ID already exists!\n"
                << endl;
+
           verify = 0;
           break;
         }
@@ -175,6 +177,7 @@ void signup()
   user.setf(ios::left);
 
   cout << "Enter your name and surname: ";
+
   cin.ignore();
   getline(cin, u.nameSurname);
 
@@ -183,13 +186,17 @@ void signup()
 
   user << setw(10) << u.ID << setw(30) << u.password << u.nameSurname << endl;
 
-  user.close();
+  cout << endl
+       << "      Sign Up successful!"
+       << endl
+       << endl
+       << "    Returning main menu...";
 
-  cout << "\nSign Up successful!   Returning main menu...";
-
-  Sleep(2000);
+  Sleep(1700);
   system("cls");
-  Sleep(150);
+
+  user.close();
+  admin.close();
 
   menu_main();
 }
@@ -224,7 +231,6 @@ void login()
   {
     user.seekg(0);
     admin.seekg(0);
-    
 
     // Calculates how many digits the entered ID has
     while (verify2)
@@ -242,7 +248,9 @@ void login()
       {
         system("cls");
         cout << "\t\tWarning!" << endl
-             << "\nThis ID is not valid! Must be have 6 digit\n"
+             << endl
+             << "This ID is not valid! Must be 6 digit"
+             << endl
              << endl;
         continue;
       }
@@ -254,38 +262,44 @@ void login()
     cin.ignore();
     getline(cin, password);
 
+    // Checks whether the ID trying to log in belongs to any admin account
+
     while (!admin.eof())
     {
       admin >> u.ID >> u.password;
 
       if (ID == u.ID && password == u.password)
       {
-        cout << "Admin Login successful!";
+        cout << "Admin Log in successful!";
         verify = 1;
         is_admin = true;
         admin.close();
+        user.close();
         menu_admin();
         break;
       }
     }
 
+    // Checks whether the ID trying to log in belongs to any user account
     while (!user.eof())
     {
       user >> u.ID >> u.password;
 
       // It was created to skip the password and name surname in '.txt'
-      getline(user, dummy); //
+      getline(user, dummy);
 
       if (ID == u.ID && password == u.password)
       {
         cout << "\nLogin successful!";
 
-        Sleep(600);
+        Sleep(1000);
 
         verify = 1;
         activeID = ID;
 
         user.close();
+        admin.close();
+
         menu_user();
 
         break;
@@ -312,8 +326,8 @@ void menu_admin()
   int select_menu, verify = 1;
   system("cls");
 
-  cout << "Select the action you want to do;" << endl;
-  cout << "\n1) Add books   2) Remove a book   3) Log Out" << endl;
+  cout << "Select the action you want to do" << endl;
+  cout << "\n1) Add book   2) Remove a book   3) Log out" << endl;
 
   do
   {
@@ -353,10 +367,9 @@ void add_book()
   int amount, number = 1;
 
   book_list.close();
-
   book_list.open("book_list.txt", ios::out | ios::app);
 
-  cout << "How many books do you want to enter? : ";
+  cout << "How many books do you want to add ? : ";
   cin >> amount;
 
   system("cls");
@@ -400,8 +413,8 @@ void remove_book(int bookID)
   string dummy;
 
   book_list.close();
-
   book_list.open("book_list.txt", ios::in);
+
   temp_book_list.open("temp_book_list.txt", ios::out);
 
   while (!book_list.eof())
@@ -435,10 +448,10 @@ void menu_user()
 
   int select_menu, verify = 1;
   system("cls");
-  cout << "Hi " << get_ID(activeID) << "!" << endl;
+  cout << "Hi " << get_ID(activeID) << " !" << endl;
 
   cout << "\nSelect the action you want to do" << endl;
-  cout << "\n1) Borrow books   2) Return books    3) Log Out" << endl;
+  cout << "\n1) Borrow books   2) Return books    3) Log out" << endl;
   cout << "     (Max. 3)" << endl;
 
   do
@@ -457,7 +470,7 @@ void menu_user()
       verify = 0;
 
       return_books();
-      break; // t�rnak i�inde yaz�ld���nda ascii de�eri baz al�n�r ('2')
+      break;
     case '3':
       verify = 0;
       activeID = 0;
@@ -479,6 +492,10 @@ void list_category()
   book_category.close();
   book_category.open("book_category.txt", ios::in);
 
+  cout << " Categories  " << endl
+       << " --------------------" << endl
+       << endl;
+
   while (!book_category.eof())
   {
     amount++;
@@ -486,7 +503,8 @@ void list_category()
     cout << number << ")";
 
     getline(book_category, b.category);
-    cout << b.category << endl;
+    cout << b.category << endl
+         << endl;
   }
 
   cout << endl
@@ -503,7 +521,7 @@ void choose_category(int amount)
   string dummy;
   int number;
 
-  cout << "\nSelect the category: ";
+  cout << endl;
   cin >> b.categoryID;
 
   // '+1' was added to create the back option and prevent possible larger digit entries
@@ -521,7 +539,7 @@ void choose_category(int amount)
 
     menu_user();
   }
-  // It has been put to return to the beginning of the file
+
   book_category.close();
   book_category.open("book_category.txt", ios::in);
 
@@ -533,6 +551,7 @@ void choose_category(int amount)
     {
       getline(book_category, b.category);
       book_category.close();
+
       list_books(b.categoryID, b.category);
     }
 
@@ -548,12 +567,11 @@ void list_books(int categoryID, string category)
   int status, amount = 0;
 
   book_list.close();
-
   book_list.open("book_list.txt", ios::in);
 
   system("cls");
   cout << category << endl
-       << " ---------------" << endl;
+       << " --------------------" << endl;
 
   while (!book_list.eof())
   {
@@ -580,6 +598,7 @@ void list_books(int categoryID, string category)
 
   book_list.close();
   cout << endl
+       << endl
        << amount + 1 << ")"
        << "  Back" << endl
        << endl;
@@ -593,16 +612,16 @@ void choose_book(int categoryID, string category, int amount)
   string dummy;
   int number, step = 0, value = 1;
 
-  book_list.close();
-
-  book_list.open("book_list.txt", ios::in);
   cin >> number;
 
-  // '+1' was added to create the back option
+  // 'back' function
   if (number == amount + 1)
   {
     list_category();
   }
+
+  book_list.close();
+  book_list.open("book_list.txt", ios::in);
 
   while (!book_list.eof())
   {
@@ -617,6 +636,7 @@ void choose_book(int categoryID, string category, int amount)
         book_list.close();
         value = 0;
 
+        // the 'remove book' function for admins
         if (is_admin)
         {
           remove_book(b.ID);
@@ -645,7 +665,6 @@ void assing_book(int bookID, string name_book_author)
   int amount = 0, value = 1;
 
   assing_list.close();
-
   assing_list.open("assing_list.txt", ios::in);
 
   while (!assing_list.eof())
@@ -653,6 +672,7 @@ void assing_book(int bookID, string name_book_author)
     assing_list >> u.ID >> dummy;
     getline(assing_list, dummy);
 
+    // Created to limit the number of books that a user can borrow
     if (u.ID == activeID)
     {
       amount++;
@@ -674,12 +694,14 @@ void assing_book(int bookID, string name_book_author)
       }
     }
 
+    //  Checks to whether the chosen book has already been taken or not
     if (!book_status(bookID))
     {
       system("cls");
 
-      cout << "        Warning!" << endl;
-      cout << "\nThe book is already taken.";
+      cout << "              Warning !" << endl
+           << endl
+           << "       The book is already taken";
 
       Sleep(1700);
 
@@ -701,7 +723,7 @@ void assing_book(int bookID, string name_book_author)
 
     assing_list.close();
 
-    list_category();
+    menu_user();
   }
 }
 
@@ -713,8 +735,8 @@ void unAssing_book(int bookID)
   userInfo u;
 
   assing_list.close();
-
   assing_list.open("assing_list.txt", ios::in);
+
   temp_assing_list.open("temp_assing_list.txt", ios::out);
 
   while (!assing_list.eof())
@@ -737,6 +759,7 @@ void unAssing_book(int bookID)
   rename("temp_assing_list.txt", "assing_list.txt");
 }
 
+// Created to determine and print whether is book available (not borrowed) or not
 int book_status(int bookID)
 {
   fstream assing_list;
@@ -796,19 +819,43 @@ void return_books()
       cout << amount << ")" << b.name_book_author << endl;
     }
   }
-  assing_list.close();
-  assing_list.open("assing_list.txt", ios::in);
+
+  if (value == 0)
+  {
+    cout << "         You don't have any book "
+         << endl
+         << endl
+         << "       Returning to the main menu... ";
+
+    Sleep(1700);
+    assing_list.close();
+    menu_user();
+  }
+
+  cout << endl
+       << amount + 1 << ")"
+       << " Back" << endl
+       << endl;
+
+  assing_list.seekg(0);
 
   if (value == 1)
   {
-    cout << "\nSelect the book which you want to return: ";
+    // Getting input from user
     cin >> number;
 
     // Repeats the process if the input exceeds the number of books listed.
-    if (number > amount)
+    if (number > amount + 1)
     {
       assing_list.close();
       return_books();
+    }
+
+    // 'back' function
+    if (number == amount + 1)
+    {
+      assing_list.close();
+      menu_user();
     }
 
     while (!assing_list.eof())
@@ -828,24 +875,14 @@ void return_books()
         cout << b.ID;
 
         unAssing_book(b.ID);
-
         menu_user();
       }
     }
     assing_list.close();
   }
-
-  if (value == 0)
-  {
-    cout << "You dont have any book.     Returning to the main menu...";
-
-    Sleep(2000);
-    menu_user();
-  }
-  assing_list.close();
 }
 
-// Created to know who is logged
+// Created to know who is logged in
 string get_ID(int userID)
 {
   fstream user;
@@ -863,10 +900,9 @@ string get_ID(int userID)
     {
       user >> dummy >> name;
 
-      return name;
-
       user.close();
-      break;
+
+      return name;
     }
 
     getline(user, dummy);
