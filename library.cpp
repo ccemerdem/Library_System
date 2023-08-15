@@ -43,6 +43,7 @@ int book_status(int bookID);
 void assing_book(int bookID, string name_book_author);
 void unAssing_book(int bookID);
 string get_ID(int userID);
+bool check_bookID(int bookID);
 
 int main()
 {
@@ -59,8 +60,9 @@ int menu_main()
   cout << " /-----------------------------------\\" << endl;
   cout << "|    Welcome To The Library System    |" << endl;
   cout << " \\-----------------------------------/" << endl;
-  cout << "\nSelect the action you want to do" << endl;
-  cout << "\n1) Log In     2) Sign Up     3) Exit" << endl;
+  cout << "\nSelect the action you want to do;" << endl;
+  cout << "\n1) Log In     2) Sign Up     3) Exit" << endl
+       << endl;
 
   do
   {
@@ -135,8 +137,14 @@ void signup()
     if (step != 6)
     {
       system("cls");
-      cout << "\t\tWarning!" << endl
-           << "\nThis ID is not valid! Must be 6 digit" << endl;
+
+      cout << "              Warning !" << endl
+           << endl
+           << "This ID is not valid. Must be 6 digit"
+           << endl
+           << endl
+           << endl;
+
       verify = 0;
       continue;
     }
@@ -158,8 +166,12 @@ void signup()
         if (IDdummy == u.ID || IDdummy == adminID)
         {
           system("cls");
-          cout << "\tWarning!" << endl
-               << "\nThis ID already exists!\n"
+
+          cout << "              Warning !" << endl
+               << endl
+               << "      This ID is already exists"
+               << endl
+               << endl
                << endl;
 
           verify = 0;
@@ -186,11 +198,12 @@ void signup()
 
   user << setw(10) << u.ID << setw(30) << u.password << u.nameSurname << endl;
 
-  cout << endl
-       << "      Sign Up successful!"
+  system("cls");
+
+  cout << "      Successfully signed up!"
        << endl
        << endl
-       << "    Returning main menu...";
+       << "    Returning to the main menu...";
 
   Sleep(1700);
   system("cls");
@@ -247,11 +260,14 @@ void login()
       if (step != 6)
       {
         system("cls");
-        cout << "\t\tWarning!" << endl
+
+        cout << "              Warning !" << endl
              << endl
-             << "This ID is not valid! Must be 6 digit"
+             << "This ID is not valid. Must be 6 digit"
+             << endl
              << endl
              << endl;
+
         continue;
       }
 
@@ -270,11 +286,13 @@ void login()
 
       if (ID == u.ID && password == u.password)
       {
-        cout << "Admin Log in successful!";
+
         verify = 1;
         is_admin = true;
+
         admin.close();
         user.close();
+
         menu_admin();
         break;
       }
@@ -290,9 +308,6 @@ void login()
 
       if (ID == u.ID && password == u.password)
       {
-        cout << "\nLogin successful!";
-
-        Sleep(1000);
 
         verify = 1;
         activeID = ID;
@@ -309,9 +324,10 @@ void login()
     if (!verify)
     {
       system("cls");
-      cout << "      Warning!" << endl;
-      cout << "\nWrong ID or password!\n"
-           << endl;
+
+      cout << "              Warning !" << endl
+           << endl
+           << "        Wrong ID or password";
 
       Sleep(1700);
 
@@ -326,8 +342,9 @@ void menu_admin()
   int select_menu, verify = 1;
   system("cls");
 
-  cout << "Select the action you want to do" << endl;
-  cout << "\n1) Add book   2) Remove a book   3) Log out" << endl;
+  cout << "Select the action you want to do;" << endl;
+  cout << "\n1) Add book   2) Remove a book   3) Log out" << endl
+       << endl;
 
   do
   {
@@ -376,17 +393,29 @@ void add_book()
 
   while (amount != 0)
   {
-    amount--;
-
     cout << "          Book " << number << endl;
     cout << "--------------------------" << endl;
-    number++;
-
-    cout << "Category ID : ";
-    cin >> b.categoryID;
 
     cout << "Book ID (Max. lenght is 6): ";
     cin >> b.ID;
+
+    if (check_bookID(b.ID))
+    {
+      system("cls");
+
+      cout << "already exists";
+
+      book_list.close();
+      book_list.open("book_list.txt", ios::out | ios::app);
+
+      Sleep(1700);
+      system("cls");
+
+      continue;
+    }
+
+    cout << "Category ID : ";
+    cin >> b.categoryID;
 
     cout << "Book name: ";
     cin.ignore();
@@ -396,12 +425,41 @@ void add_book()
     getline(cin, b.authorName);
 
     book_list << endl
-              << left << setw(8) << b.categoryID << right << setw(7) << b.ID << " '" << b.bookName << "' by " << b.authorName;
+              << left << setw(8) << b.categoryID
+              << right << setw(7) << b.ID
+              << " '" << b.bookName << "' by " << b.authorName;
     cout << endl;
+
+    amount--;
+    number++;
   }
 
   book_list.close();
   menu_admin();
+}
+
+bool check_bookID(int bookID)
+{
+  fstream book_list;
+  bookInfo b;
+
+  book_list.close();
+  book_list.open("book_list.txt", ios::in);
+
+  while (!book_list.eof())
+  {
+    book_list >> b.categoryID >> b.ID;
+    getline(book_list, b.name_book_author);
+
+    if (bookID == b.ID)
+    {
+      book_list.close();
+      return true;
+    }
+  }
+
+  book_list.close();
+  return false;
 }
 
 void remove_book(int bookID)
@@ -450,8 +508,9 @@ void menu_user()
   system("cls");
   cout << "Hi " << get_ID(activeID) << " !" << endl;
 
-  cout << "\nSelect the action you want to do" << endl;
-  cout << "\n1) Borrow books   2) Return books    3) Log out" << endl;
+  cout << "\nSelect the action you want to do;" << endl;
+  cout << "\n1) Borrow books   2) Return books    3) Log out" << endl
+       << endl;
   cout << "     (Max. 3)" << endl;
 
   do
@@ -681,8 +740,9 @@ void assing_book(int bookID, string name_book_author)
       {
         system("cls");
 
-        cout << "        Warning!" << endl;
-        cout << "\nYou have already 3 books.";
+        cout << "              Warning !" << endl
+             << endl
+             << "       You have already 3 books";
 
         Sleep(1700);
 
@@ -822,7 +882,7 @@ void return_books()
 
   if (value == 0)
   {
-    cout << "         You don't have any book "
+    cout << "          You don't have any book "
          << endl
          << endl
          << "       Returning to the main menu... ";
@@ -882,7 +942,7 @@ void return_books()
   }
 }
 
-// Created to know who is logged in
+// Created to get user's ID who is logged in
 string get_ID(int userID)
 {
   fstream user;
@@ -908,4 +968,29 @@ string get_ID(int userID)
     getline(user, dummy);
   }
   return 0;
+}
+
+// Created to check whether entered book ID already exists or not
+bool check_bookID(int bookID)
+{
+  fstream book_list;
+  bookInfo b;
+
+  book_list.close();
+  book_list.open("book_list.txt", ios::in);
+
+  while (!book_list.eof())
+  {
+    book_list >> b.categoryID >> b.ID;
+    getline(book_list, b.name_book_author);
+
+    if (bookID == b.ID)
+    {
+      book_list.close();
+      return true;
+    }
+  }
+
+  book_list.close();
+  return false;
 }
