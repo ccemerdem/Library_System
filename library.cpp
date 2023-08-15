@@ -438,30 +438,6 @@ void add_book()
   menu_admin();
 }
 
-bool check_bookID(int bookID)
-{
-  fstream book_list;
-  bookInfo b;
-
-  book_list.close();
-  book_list.open("book_list.txt", ios::in);
-
-  while (!book_list.eof())
-  {
-    book_list >> b.categoryID >> b.ID;
-    getline(book_list, b.name_book_author);
-
-    if (bookID == b.ID)
-    {
-      book_list.close();
-      return true;
-    }
-  }
-
-  book_list.close();
-  return false;
-}
-
 void remove_book(int bookID)
 {
   fstream book_list;
