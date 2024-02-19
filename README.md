@@ -1,2 +1,2 @@
 # Library System
-C++ program that provides users to sign up, log in, borrow/return books functions and an inventory system. Also provides add/remove books functions to admins.
+C++ program that allows users to sign up, log in, book borrowing/returning functionalities,  add/remove book functionality to admins, and an inventory system. It does all of this by using multiple .txt databases"
