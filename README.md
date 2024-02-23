@@ -3,6 +3,10 @@
 
 - Admin & User menu
 - Seamless menu transitions
+- Page system
+  - user.txt stores userID, password, name & surname information of users
+    
+  <a> <img src="https://github.com/ccemerdem/Library-System/assets/112133474/fb5edcc6-0817-4cd5-8e8c-d23bceb35c82" width="479" height="66" >  </a>
 - Multiple .txt databases 
     - user.txt stores userID, password, name & surname information of users
 
