@@ -2,7 +2,7 @@
 **C++** program that allows users to sign up, log in, book borrowing/returning functionalities, an inventory system, and add/remove book functionality to admins. It does all of these by using multiple **.txt databases**. It also has **over nine hundred lines** and **multiple releases**.
 
 - ### Seamless menu transitions
-- ### Multiple errors and input handling
+- ### Multiple errors and wrong input handling
 
   <a> <img src="https://github.com/ccemerdem/Library-System/assets/112133474/300d7bab-ff54-405e-a365-1845416be727" width="280" height="140" >  </a>
 - ## User menu
@@ -51,8 +51,9 @@
     - ### assign_list.txt 
       stores categoryID, bookID and book information
 
-      <a> <img src="https://github.com/ccemerdem/Library-System/assets/112133474/ed3eceb3-85b2-43b4-afb8-a78094ad4276" width="424" height="19" >  </a>
+      <a> <img src="https://github.com/ccemerdem/Library-System/assets/112133474/7c8e6cb5-e787-412b-931d-3731ac741c72" width="433" height="68" >  </a>
  
+
 
 
 
