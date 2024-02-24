@@ -1,8 +1,8 @@
 # Info
 **C++** program that allows users to sign up, log in, book borrowing/returning functionalities, an inventory system, and add/remove book functionality to admins. It does all of these by using multiple **.txt databases**. It also has **over nine hundred lines** and **multiple releases**.
 
-- ## Seamless menu transitions
-- ## Multiple error and input handling
+- ### Seamless menu transitions
+- ### Multiple errors and input handling
 
   <a> <img src="https://github.com/ccemerdem/Library-System/assets/112133474/300d7bab-ff54-405e-a365-1845416be727" width="280" height="140" >  </a>
 - ## User menu
@@ -12,7 +12,7 @@
   - ### Log in
      
      <a> <img src="https://github.com/ccemerdem/Library-System/assets/112133474/c54de3a0-3172-43e6-8896-d02569c1c648" width="320" height="160" >  </a>   
-  - ### Choose book ("Available" means no one has that book, so can borrow) 
+  - ### Choose book ("Available" means no one has that book, so it can be borrowed) 
      
      <a> <img src="https://github.com/ccemerdem/Library-System/assets/112133474/e0f8f4d7-a937-4ee3-afdc-27355bca4d39" width="315" height="168" >  </a>
   - ### Return book 
@@ -23,7 +23,7 @@
    - ### Add book
 
      <a> <img src="https://github.com/ccemerdem/Library-System/assets/112133474/c5b8cac5-1aa1-4ace-ba29-ec92921b957a" width="320" height="160" >  </a>
-   - ### Remove book (Also, removes the book from assign_list of assigned)
+   - ### Remove book (Also, removes the book from assign_list if the book is assigned)
      
      <a> <img src="https://github.com/ccemerdem/Library-System/assets/112133474/7d5d91bf-6c64-4901-bc92-420e0dc18f68" width="320" height="165" >  </a>
 
