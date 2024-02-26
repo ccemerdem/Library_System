@@ -41,7 +41,7 @@
       <a> <img src="https://github.com/ccemerdem/Library-System/assets/112133474/bb0e940c-5eac-4088-9bd3-7be7f7db7a58" width="355" height="65" >  </a>
       
     - ### book_list.txt  (Contains thirty-four books. Also, created with ChatGPT)
-      stores book information such as bookID, name, author
+      stores categoryID, bookID, book name and author
 
       <a> <img src="https://github.com/ccemerdem/Library-System/assets/112133474/71ef736f-a5a3-4db5-ba97-5fe0f4a84fc0" width="545" height="66" >  </a>
     - ### book_category.txt 
