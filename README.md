@@ -1,5 +1,5 @@
 # Info
-**C++** program that allows users to sign up, log in, book borrowing/returning functionalities, an inventory system, and add/remove book functionality to admins. It does all of these by using multiple **.txt databases**. It also has **over nine hundred lines** and **multiple releases**.
+**C++** program that allows users to sign up, log in, book borrowing/returning functionalities, an inventory system, and add/remove book functionality to admins. It does all of these by using multiple **.txt databases**. It also has **over nine hundred line code** and **multiple releases**.
 
 - ### Seamless menu transitions
 - ### Multiple errors and wrong input handling
